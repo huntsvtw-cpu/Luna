@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Luna</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Georgia", serif;
+  background: black;
+}
+
+/* ===== VIDEO BACKGROUND FLOU ===== */
+#bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(14px) brightness(0.85);
+  transform: scale(1.15);
+  z-index: 0;
+}
+
+/* ===== OVERLAY ASSOMBRI ===== */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+/* ===== CONTENT ===== */
+#content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== BUTTON ===== */
+#enter {
+  padding: 18px 70px;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
+  font-size: 22px;
+  letter-spacing: 6px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.4s ease;
+}
+
+#enter:hover {
+  background: rgba(255,255,255,0.25);
+  box-shadow: 0 0 30px rgba(180,255,200,0.4);
+  transform: scale(1.06);
+}
+
+/* ===== VIDEO INTRO ===== */
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 5;
+}
+
+
+#videoContainer.active {
+  display: block;
+  opacity: 1;
+}
+
+#videoContainer video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#endBtn {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 40px;
+  border-radius: 30px;
+  border: 1px solid rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.6);
+  color: #ffffff;
+  font-size: 18px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  display: none;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+#endBtn:hover {
+  background: rgba(255,255,255,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- FOND VIDEO FORET (YouTube) -->
+<div id="bg-video-container" style="position:fixed; inset:0; overflow:hidden; z-index:0;">
+  <iframe 
+    id="bg-video" 
+    src="https://www.youtube.com/embed/mTuw3jkLr-0?autoplay=1&loop=1&playlist=mTuw3jkLr-0&controls=0&modestbranding=1&showinfo=0" 
+    frameborder="0" 
+    allow="autoplay; encrypted-media; fullscreen" 
+    style="width:100%; height:100%; object-fit:cover; filter: blur(14px) brightness(0.85); transform: scale(1.15); pointer-events:none;">
+  </iframe>
+</div>
+
+
+<div id="overlay"></div>
+
+<!-- ACCUEIL -->
+<div id="content">
+  <button id="enter">Luna, Clique sur le bouton.</button>
+</div>
+
+<!-- VIDEO INTRO -->
+<div id="videoContainer">
+  <video id="introVideo">
+    <source src="" type="video/mp4">
+  </video>
+</div>
+
+<button id="endBtn">À bientôt Luna</button>
+
+<!-- AUDIO FORET -->
+<audio id="forestSound" src="" autoplay loop></audio>
+
+<script>
+const enter = document.getElementById("enter");
+const forestSound = document.getElementById("forestSound");
+
+// Au clic sur Luna
+enter.addEventListener("click", () => {
+  // Arrête le fond sonore
+  forestSound.pause();
+
+  // Ouvre la vidéo YouTube dans un nouvel onglet
+  window.open("https://youtu.be/hJ5pxI76Hvs?si=pcrBZzvRpa5Px6SV", "_blank");
+
+  // Optionnel : tu peux fermer le site actuel
+  window.close();
+});
+
+
+// CLICK
+enter.addEventListener("click", () => {
+  forestSound.volume = 0.3;
+  forestSound.pause();
+  forestSound.currentTime = 0;
+
+  videoContainer.classList.add("active");
+  introVideo.play();
+});
+
+// OPTION : quand la vidéo se termine
+introVideo.addEventListener("ended", () => {
+  // ici tu peux rediriger ou afficher autre chose
+});
+</script>
+
+</body>
+</html>
